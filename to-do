@@ -1,0 +1,57 @@
+Enter file contents here
+<html>
+<head>
+<style>
+a {
+    margin-left: 20px;
+    color: maroon;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+</style>
+<script src="jquery-1.10.2.min.js"></script>
+<script>
+$(document).ready(function()
+{
+$('#add').click( function() {
+   var Description = $('#description').val();
+  if($("#description").val() == '') {
+    $('#alert').html("Warning! You left the to-do empty");
+    $('#alert').fadeIn().delay(1000).fadeOut();
+    return false;
+   }
+   $('#todos').prepend("<li>" + Description + "<a href="#">DELETE</a></li>");
+   var todos = $('#todos').html();
+   localStorage.setItem('todos', todos);
+   return false;
+});
+$('#todos').on('click', 'a', function (e) {
+    e.preventDefault();
+    $(this).parent().remove();
+});
+
+if(localStorage.getItem('todos')) {
+$('#todos').html(localStorage.getItem('todos'));
+}
+
+$('#clear').click( function() {
+window.localStorage.clear();
+location.reload();
+return false;
+});
+});
+</script>
+</head>
+<body>
+<section>
+  <form id="form" action="#" method="POST">
+  <input id="description" name="description" type="text" />
+  <input id="add" type="submit" value="Add" />
+  <button id="clear">Clear All</button>
+  </form>
+  <div id="alert"></div>
+  <ol id="todos"></ol>
+</section>
+</body>
+</html>
